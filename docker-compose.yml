@@ -1,0 +1,21 @@
+﻿services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: regulafin-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: regulafin
+      POSTGRES_PASSWORD: regulafin
+      POSTGRES_DB: regulafin
+    ports:
+      - "5432:5432"
+    volumes:
+      - regulafin_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U regulafin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  regulafin_pg_data:
